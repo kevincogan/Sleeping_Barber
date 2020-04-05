@@ -14,7 +14,7 @@ def Barber(name, event):
             print("%s is cutting hair of %s..." %(name, cust,))
             customerInterval = random.randrange(15,25)
             time.sleep(customerInterval)
-            print("%s: All done now with %s..."%(name, cust,))
+            print("%s is all done now with %s..."%(name, cust,))
 
         print("%s checks waiting room..."%(name,))
         if len(waiting_room) == 0:
@@ -41,9 +41,6 @@ def Customer(event):
         else:
             print("Customer leaves the barber shop...")
 
-        if customer_today >= customer_booking:
-            break
-
         customerInterval = random.randrange(5,15)
         time.sleep(customerInterval)
         customer_today = customer_today + 1
@@ -61,7 +58,6 @@ def Reset(event):
 
 number_of_barbers = 4
 number_of_chairs = 15
-customer_booking = 3
 i = 1
 while i != number_of_barbers + 1:
     barber_name = "Barber " + str(i)
