@@ -1,6 +1,5 @@
 # Sleeping Barber Assignment
 
-In this document I have four parts.
 
 **Part 1 - My Code:**
 
