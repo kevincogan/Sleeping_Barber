@@ -1,4 +1,4 @@
-CA216 Sleeping Barber Assignment
+# CA216 Sleeping Barber Assignment
 
 In this document I have four parts.
 
