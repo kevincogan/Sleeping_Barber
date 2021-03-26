@@ -1,8 +1,8 @@
-# CA216 Sleeping Barber Assignment
+# Sleeping Barber Assignment
 
 In this document I have four parts.
 
-Part 1, My Code:
+**Part 1, My Code:**
 
 In my code I used event objects. This enabled the threads to communicate with each other. The Event Objects I used were:
 
@@ -17,7 +17,7 @@ In my code I used event objects. This enabled the threads to communicate with ea
 
 
 
-Part 2, A Step By Step Explanation Of My Code:
+**Part 2, A Step By Step Explanation Of My Code:**
 
 We begin where we have parameters that can be changed such as number of barbers and number of chairs. This allows us to change the numbers easily without having to look through the code and change each number manually. After this I have created a while loop that will loop according to the number in our number of barbers parameter. In this case it is four so four threads will be created and sent to the barber method each thread will be assigned a unique name and will be initiated as an Event Object. The thread will then begin by the start(). This will happen four times in this case.
 
@@ -25,17 +25,3 @@ The threads will now be sent to the Barber module. By the use of a boolean state
 
 At the end of the code a sleep timer is set to one to ensure that the barber threads are all set and ready to go before the infinite looping Customer module is started. Once started the customers will then start coming in at random times due to the random timer. If the barber is asleep the customer will wake up the first barber, by set(), in the sleeping barber list once the barber is awake the barber is pop() from the list and starts cutting the customer's hair. This sleeping barber list follows FIFO (First In First Out) this ensures that there is no starvation to the barber threads. Each
 a customer is assigned a number starting from 1. This was a good way to ensure that each customer was getting their hair in the right order and once again ensuring there was no starvation of customers. The barber cuts the hair of the customer for a random time interval. Once the barber is finished the barber then checks the waiting room. Once again using boolean statements if the waiting room is empty the barber thread will be added to the sleeping barber list and be blocked by wait() or else if their is a customer in the waiting room the barber will pop() the top of the waitroom list following a FIFI order ensure no starvation occurs. Finally if the barbers are busy cutting hair and the waiting room is full any incoming customers will then leave the barber shop.
-
-
-
-Part 3, How I Tested My Code
-
-In order to test my code I used a number of print statements with the action that the tread was doing. This enabled me to visualise what my program was doing so I could understand how my program was running at each step of my code.
-
-Part 4, The Flaws In My Code
-
-1. When I was first building my code there was an infinite loop and it sped through my code very quickly eventually causing my laptop to crash. I solved this by using the sleep() function from the time library. This allowed me to analyze the output and sequence of steps in a slower manner without spamming the interpreter.
-
-2. Initially when implementing the event() object. I was trying to put my single barber to sleep using the wait(). I placed that in my Barber module. It succeeded in blocking (putting the barber to sleep) however it kept looping over the statements previously causing errors in the expected sequence of steps for a barber. My solution was to create a separate module with only the wait() function as it will not interfere with other code.
-
-3. When implementing my Reset(event) function (clear()), I positioned it after the block (wait()) function. Initially, I was not aware that the internal flag had to be set to false inorder to block (wait()) so my Block function was always immediately passing as true which messed up the boolean statement when I was originally using isSet() to check if a single barber was sleeping.
