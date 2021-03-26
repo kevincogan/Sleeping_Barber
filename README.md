@@ -2,22 +2,22 @@
 
 In this document I have four parts.
 
-**Part 1, My Code:**
+**Part 1 - My Code:**
 
 In my code I used event objects. This enabled the threads to communicate with each other. The Event Objects I used were:
 
-1. Event() : this initiated the event and set the internal flag initially to false. I used this when I was creating my threads so each thread was an Event Object.
+1. **Event() :** this initiated the event and set the internal flag initially to false. I used this when I was creating my threads so each thread was an Event Object.
 
-2. wait() : This blocks the thread until the internal flag is set true. If the internal flag is true on entry it will return immediately. Otherwise, it will block the thread until another thread calls set() to change the internal flag to true. This is what I used to put the barbers to sleep or in more technical terms blocked the threads.
-
-
-3. set() : is used to change the internal flag to true if the internal flag is set to false on entry. However, if the internal flag is true on entry then it will return immediately. This is what I used to wake the barbers up every time a customer entered and the barber was asleep.
-
-4. clear() : is used to reset the internal flags to false. This is what I used to ensure the wait function was executing properly. If the wait function received a true internal flag it would cause an infinite loop in my program. This is further explained in the "My Flaws Section" below.
+2. **wait() :** This blocks the thread until the internal flag is set true. If the internal flag is true on entry it will return immediately. Otherwise, it will block the thread until another thread calls set() to change the internal flag to true. This is what I used to put the barbers to sleep or in more technical terms blocked the threads.
 
 
+3. **set() :** is used to change the internal flag to true if the internal flag is set to false on entry. However, if the internal flag is true on entry then it will return immediately. This is what I used to wake the barbers up every time a customer entered and the barber was asleep.
 
-**Part 2, A Step By Step Explanation Of My Code:**
+4. **clear() :** is used to reset the internal flags to false. This is what I used to ensure the wait function was executing properly. If the wait function received a true internal flag it would cause an infinite loop in my program. This is further explained in the "My Flaws Section" below.
+
+
+
+**Part 2 - A Step By Step Explanation Of My Code:**
 
 We begin where we have parameters that can be changed such as number of barbers and number of chairs. This allows us to change the numbers easily without having to look through the code and change each number manually. After this I have created a while loop that will loop according to the number in our number of barbers parameter. In this case it is four so four threads will be created and sent to the barber method each thread will be assigned a unique name and will be initiated as an Event Object. The thread will then begin by the start(). This will happen four times in this case.
 
