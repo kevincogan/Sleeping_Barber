@@ -1,28 +1,88 @@
-# Sleeping Barber Assignment
+# Barber Shop Simulation
 
-This is a simulation of the operation of a barber shop to demonstrate the use of multi-threading. In this case, the barbers are each a thread and the number of barbers can be increased or decreased according to the desired amount.
+This Python script simulates a barber shop with multiple barbers and customers entering randomly. The program models the classic "Sleeping Barber Problem" using threads.
 
+## Features
+- Simulates barbers cutting hair, going to sleep when idle, and being awakened by customers.
+- Simulates customers entering the barber shop at random intervals.
+- Manages waiting room seats for customers.
+- Dynamically handles multiple barbers and customers.
 
-**Part 1 - My Code:**
+## Prerequisites
+- Python 3.x
 
-In my code I used event objects. This enabled the threads to communicate with each other. The Event Objects I used were:
+## How It Works
+### Main Components:
+1. **Barber Function**
+   - Represents a barber who cuts hair, checks the waiting room, and sleeps when no customers are present.
 
-1. **Event() :** this initiated the event and set the internal flag initially to false. I used this when I was creating my threads so each thread was an Event Object.
+2. **Customer Function**
+   - Simulates customers entering the shop at random intervals and determines their behavior:
+     - Wakes up a sleeping barber.
+     - Takes a seat in the waiting room if available.
+     - Leaves if no seats are available.
 
-2. **wait() :** This blocks the thread until the internal flag is set true. If the internal flag is true on entry it will return immediately. Otherwise, it will block the thread until another thread calls set() to change the internal flag to true. This is what I used to put the barbers to sleep or in more technical terms blocked the threads.
+3. **Event Handling**
+   - `WakeUp(event)`: Wakes a sleeping barber by setting the thread event.
+   - `Block(name, event)`: Blocks the barber thread (puts the barber to sleep).
+   - `Reset(event)`: Resets the state of the barber’s thread.
 
+### Variables:
+- `waiting_room`: List tracking customers in the waiting room.
+- `sleeping_barber`: List of barbers that are currently asleep.
+- `number_of_barbers`: Number of barbers in the shop (default: 4).
+- `number_of_chairs`: Number of chairs in the waiting room (default: 15).
 
-3. **set() :** is used to change the internal flag to true if the internal flag is set to false on entry. However, if the internal flag is true on entry then it will return immediately. This is what I used to wake the barbers up every time a customer entered and the barber was asleep.
+### Workflow:
+1. Barbers and customers are implemented as separate threads.
+2. Customers arrive at random intervals (5-15 seconds) and:
+   - Wake a sleeping barber if available.
+   - Take a seat if there are available chairs in the waiting room.
+   - Leave the shop if no chairs are available.
+3. Barbers:
+   - Cut hair for customers in the waiting room (takes 15-25 seconds).
+   - Sleep when the waiting room is empty.
+   - Wake up when a customer arrives and wakes them.
 
-4. **clear() :** is used to reset the internal flags to false. This is what I used to ensure the wait function was executing properly. If the wait function received a true internal flag it would cause an infinite loop in my program. This is further explained in the "My Flaws Section" below.
+## How to Run
+1. Save the script as `barber_shop_simulation.py`.
+2. Run the script in the terminal:
+   ```bash
+   python barber_shop_simulation.py
+   ```
+3. The output will display the simulation of customers entering, barbers cutting hair, and barbers sleeping/waking up.
 
+## Customization
+- **Change the number of barbers:**
+  Update `number_of_barbers` to the desired number of barbers.
 
+- **Change the number of chairs in the waiting room:**
+  Update `number_of_chairs` to reflect the size of the waiting area.
 
-**Part 2 - A Step By Step Explanation Of My Code:**
+## Example Output
+```
+Barber 1 starting job...
+Barber 2 starting job...
+Barber 3 starting job...
+Barber 4 starting job...
+Customer enters...
+Customer 1 takes a seat in the waiting room...
+Seats taken is: 1
+Barber 1 is cutting hair of Customer 1...
+Customer enters...
+Customer 2 wakes barber...
+Barber 2 awakens!...
+Customer enters...
+Customer 3 takes a seat in the waiting room...
+Seats taken is: 1
+Barber 2 is cutting hair of Customer 2...
+Barber 1 is all done now with Customer 1...
+...
+```
 
-We begin where we have parameters that can be changed such as number of barbers and number of chairs. This allows us to change the numbers easily without having to look through the code and change each number manually. After this I have created a while loop that will loop according to the number in our number of barbers parameter. In this case it is four so four threads will be created and sent to the barber method each thread will be assigned a unique name and will be initiated as an Event Object. The thread will then begin by the start(). This will happen four times in this case.
+## Notes
+- The simulation runs indefinitely, generating customers and processing barbers’ actions.
+- To stop the simulation, use `Ctrl+C` in the terminal.
 
-The threads will now be sent to the Barber module. By the use of a boolean statement I can allow the barber to go to sleep and cut hair. When no one is in the barber shop the barber will go to sleep. During this process the barber name will be added to a list called sleepinf_barber, the thread(barber) will be reset using the clear() function to ensure the internal flags are set to false meaning the thread can be blocked(barber can go to sleep). The wait() function is in a separate module to ensure it does not cause any interference with the other code such as looping over the previous code as it is in an infinite looping barber module. 
+Enjoy experimenting with this fun simulation!
 
-At the end of the code a sleep timer is set to one to ensure that the barber threads are all set and ready to go before the infinite looping Customer module is started. Once started the customers will then start coming in at random times due to the random timer. If the barber is asleep the customer will wake up the first barber, by set(), in the sleeping barber list once the barber is awake the barber is pop() from the list and starts cutting the customer's hair. This sleeping barber list follows FIFO (First In First Out) this ensures that there is no starvation to the barber threads. Each
-a customer is assigned a number starting from 1. This was a good way to ensure that each customer was getting their hair in the right order and once again ensuring there was no starvation of customers. The barber cuts the hair of the customer for a random time interval. Once the barber is finished the barber then checks the waiting room. Once again using boolean statements if the waiting room is empty the barber thread will be added to the sleeping barber list and be blocked by wait() or else if their is a customer in the waiting room the barber will pop() the top of the waitroom list following a FIFI order ensure no starvation occurs. Finally if the barbers are busy cutting hair and the waiting room is full any incoming customers will then leave the barber shop.
